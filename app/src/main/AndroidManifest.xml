@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.rxjava2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Firebase"
+            android:label="@string/title_activity_firebase"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".WordsFinder" />
+        <activity android:name=".Transformators" />
+        <activity android:name=".Combiners" />
+        <activity
+            android:name=".NumberFilter"
+            android:label="@string/title_activity_number_filter"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Filters" />
+        <activity android:name=".BackPressure" />
+        <activity android:name=".Threads" />
+        <activity android:name=".TimeManagement" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Observables" />
+        <activity android:name=".Creators" />
+        <activity android:name=".Validator" />
+        <activity android:name=".Clock" />
+        <activity android:name=".ComDisposable" />
+    </application>
+
+</manifest>

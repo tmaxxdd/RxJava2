@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RxJava2</string>
+    <string name="title_activity_number_filter">NumberFilter</string>
+
+    <string name="ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, quam non congue aliquet, eros nulla pretium elit, quis elementum dolor augue vel nunc. Nulla non felis turpis. Aliquam eget fringilla risus, in ullamcorper felis. Curabitur quis lorem eget massa malesuada pellentesque id non orci. Vivamus fermentum, turpis vel congue dictum, erat elit faucibus urna, interdum consectetur quam tortor id metus. Maecenas venenatis tempor orci, vitae finibus diam feugiat ut. Curabitur eget dapibus purus, eu eleifend dui. Integer justo nulla, pharetra vel sem nec, malesuada rutrum tellus. Morbi a mauris finibus, dapibus libero eget, commodo massa. Sed lectus neque, aliquam.</string>
+    <string name="title_activity_firebase">Firebase</string>
+</resources>
