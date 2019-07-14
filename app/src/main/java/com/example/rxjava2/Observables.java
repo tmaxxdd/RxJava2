@@ -21,14 +21,12 @@ import io.reactivex.disposables.Disposable;
 
 public class Observables extends AppCompatActivity {
 
-    private static final String TAG = "Observables";
+    private static final String TAG = "RxJava2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_observables);
-
-        //TODO Observable, Flowable, Single, Maybe, Completable
 
         // Observable - emituje 0 lub wiecej elementow. Konczy sukcesem lub bledem
 
