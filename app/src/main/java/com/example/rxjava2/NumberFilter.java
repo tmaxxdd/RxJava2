@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 
 
 public class NumberFilter extends AppCompatActivity {
-
+    
     private static final String TAG = "RxJava2";
 
     @Override
@@ -21,49 +21,25 @@ public class NumberFilter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_number_filter);
 
-        // Generates random numbers from 0 up to 100
         Random random = new Random();
-        Observable<Integer> randomNumbers = Observable
-                .interval(200, TimeUnit.MILLISECONDS)
-                .take(20)
-                .map(lng -> random.nextInt(10));
+        Observable<Integer> randomGenerator = Observable.fromCallable(() -> random.nextInt(10))
+                .repeat()
+                .take(20);
 
-        randomNumbers.subscribe(integer -> Log.d(TAG, String.valueOf(integer)));
+        randomGenerator.subscribe(randInt -> Log.d(TAG, "Random: " + randInt));
 
-        // Count
+        randomGenerator.count().subscribe(count -> Log.d(TAG, "Generated: " + count + " numbers"));
 
-        randomNumbers
-                .count()
-                .subscribe(sum -> Log.d(TAG, "Wylosowano " + sum + " liczb"));
-
-        // Filter
-
-        randomNumbers
-                .distinct()
-                .filter( x -> x < 5)
-                .toSortedList()
-                .subscribe(result -> Log.d(TAG, "Mniejsze od 5 to: " + result));
-
-
-        // toMultimap
-
-        randomNumbers
+        randomGenerator
                 .distinct()
                 .toMultimap(i -> (i % 2 == 0) ? "even" : "odd")
                 .subscribe(result -> Log.d(TAG, String.valueOf(result)));
 
-        // Avg
+        MathObservable.averageFloat(randomGenerator)
+                .subscribe(avg -> Log.d(TAG, "The average is: " + avg));
 
-        MathObservable
-                .averageFloat(randomNumbers)
-                .subscribe(avg -> Log.d(TAG, "Srednia to: " + avg));
-
-        // Sum
-
-        MathObservable
-                .sumInt(randomNumbers)
-                .subscribe(sum -> Log.d(TAG, "Suma to: " + sum));
-
+        MathObservable.sumInt(randomGenerator)
+                .subscribe(sum -> Log.d(TAG, "The sum: " + sum));
     }
-
+    
 }
