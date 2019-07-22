@@ -25,50 +25,43 @@ public class Filters extends AppCompatActivity {
 
         AppCompatButton publish = findViewById(R.id.pubButton);
 
-        // Debounce - wypuszcza elementy po uplywie danego czasu od ostatniej emisji
-
         RxView.clicks(publish)
                 .debounce(1, TimeUnit.SECONDS)
                 .subscribe(click -> Log.d(TAG, "Clicked!"));
 
-        // Distinct - tylko te elementy, ktore sie nie powtarzaja z poprzednimi
-
         List<String> users = new ArrayList<>();
 
-        Observable
-                .just("user1", "user2", "user1", "user3")
+        Observable.just("user1", "user2", "user1", "user3")
                 .distinct()
                 .subscribe(user -> users.add(user));
 
         Log.d(TAG, "Users: " + users.toString());
-
-        // ofType - pozwala zwrocic tylko te elementy ktora sa danym typem
 
         Observable<Number> numbers = Observable.just(1, 4.0, 3, 2.71, 2f, 7);
         Observable<Integer> integers = numbers.ofType(Integer.class);
 
         integers.subscribe((Integer x) -> Log.d(TAG, "Integer: " + x));
 
-        // timeout - konczy emisje po danym czasie.
+        Observable.create(emitter -> {
+            emitter.onNext(1);
 
-        Observable
-                .create(emitter -> {
-                    emitter.onNext(1);
+            Thread.sleep(500);
 
-                    Thread.sleep(500);
+            emitter.onNext(2);
 
-                    emitter.onNext(2);
+            Thread.sleep(1700);
 
-                    Thread.sleep(1700);
+            emitter.onNext(3);
 
-                    emitter.onNext(3); // TimeoutExcpetion. Minela 1 sek.
-                    emitter.onComplete();
-                })
+            emitter.onComplete();
+        })
                 .timeout(1, TimeUnit.SECONDS)
-                .subscribe(
-                        item -> Log.d(TAG, "Next item: " + item),
-                        error -> Log.d(TAG, error.getMessage())
-                );
+                .subscribe(item -> Log.d(TAG, "Next item: " + item),
+                        error -> Log.e(TAG, error.getMessage()));
 
+        Observable.range(0, 10)
+                .filter(i -> i <= 5)
+                .subscribe(item -> Log.d(TAG, "Smaller or equal than 5: " + item));
     }
+    
 }
