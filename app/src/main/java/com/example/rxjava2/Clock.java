@@ -17,46 +17,54 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Clock extends AppCompatActivity {
 
-    Disposable disposable = null;
+    private Disposable timer;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock);
 
-        TextView timeView = findViewById(R.id.time);
-        AppCompatButton stop = findViewById(R.id.stop);
+        compositeDisposable = new CompositeDisposable();
+
+        AppCompatTextView timeView = findViewById(R.id.time);
         AppCompatButton start = findViewById(R.id.start);
+        AppCompatButton stop = findViewById(R.id.stop);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-        start.setOnClickListener(click -> disposable = startTimer(timeView));
+        Disposable starter = RxView.clicks(start).subscribe(click -> timer = getTimer(timeView, sdf));
+        Disposable stoper = RxView.clicks(stop).subscribe(click -> stopTimer(timeView));
 
-        stop.setOnClickListener(click -> {
-            if (disposable != null) {
-                disposable.dispose();
-            }
-            timeView.setText("Stopped");
-        });
+        compositeDisposable.add(starter);
+        compositeDisposable.add(stoper);
+        compositeDisposable.add(timer);
+    }
+
+    private void stopTimer(AppCompatTextView timeView) {
+        if (timer != null) {
+            timer.dispose();
+        }
+        timeView.setText("Stopped");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (disposable != null) {
-            disposable.dispose();
-        }
+        compositeDisposable.clear();
     }
 
-    private Disposable startTimer(TextView textView) {
-        return Observable.timer(1000, TimeUnit.MILLISECONDS)
-                .map(o -> getCurrentTime())
-                .repeat() // important to show more that once
+    private Disposable getTimer(AppCompatTextView timeView, SimpleDateFormat sdf) {
+        return Observable.timer(1, TimeUnit.SECONDS)
+                .map(lng -> getCurrentTime(sdf))
+                .repeat()
                 .subscribeOn(Schedulers.single())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(textView::setText);
+                .subscribe(timeView::setText);
     }
 
-    public String getCurrentTime() {
-        return new SimpleDateFormat("HH:mm:ss").format(new Date());
+    private String getCurrentTime(SimpleDateFormat simpleDateFormat) {
+        return simpleDateFormat.format(new Date());
     }
+
 }
