@@ -22,6 +22,8 @@ public class Validator extends AppCompatActivity {
         TextView message = findViewById(R.id.message);
 
         RxTextView.textChanges(input)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .map(this::isPasswordValid)
                 .subscribe(
                         valid -> {
