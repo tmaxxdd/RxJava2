@@ -1,7 +1,15 @@
-# RxJava2
+# RxJava2 w Android
 ![RxJava2 course background](/rxjava2_udemy_thumbnail.png)
+## Zrealizowane scenariusze
+* Generowanie i filtrowanie liczb
+* Asynchroniczne reagowanie na widoku z RxView
+* Dynamiczne wyszukiwanie słów
+* Asynchroniczna baza danychz z RxFirebase
+* Walidacja hasła
+
 ## Opracowane operatory
 ### Tworzenia
+* just
 * fromIterable
 * create
 * range
